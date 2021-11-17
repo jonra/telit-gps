@@ -3,11 +3,11 @@ Description=Telit-GPS
 
 [Service]
 Type=oneshot
-StandardOutput=append:/home/pi/telit.log
-StandardError=append:/home/pi/telit.log
-ExecStart=/home/pi/telit-gps/clear_log.sh
-ExecStart=/home/pi/telit-gps/start_gnss_stream.sh
-ExecStart=/usr/bin/python3 /home/pi/telit-gps/GNSS_to_MQTT.py
+StandardOutput=append:%h/telit.log
+StandardError=append:%h/telit.log
+ExecStart=%h/telit-gps/clear_log.sh
+ExecStart=%h/telit-gps/start_gnss_stream.sh
+ExecStart=/usr/bin/python3 %h/telit-gps/GNSS_to_MQTT.py
 
 [Install]
 WantedBy=multi-user.target
