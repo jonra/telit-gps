@@ -32,12 +32,10 @@ def parse_GNSS_data(data):
         
         timestamp = str(int(time()*1000))
         lat = decode(sdata[3]) #latitude
-        dirLat = sdata[4]      #latitude direction N/S
         lng = decode(sdata[5]) #longitute
-        dirLng = sdata[6]      #longitude direction E/W
         speed = sdata[7]       #Speed in knots
         
-        return '    "speed": "%s",\n    "lat": "%s%s",\n    "lng": "%s%s",\n    "timestamp": "%s",\n' % (speed,lat,dirLat,lng,dirLng,timestamp)
+        return '    "speed": "%s",\n    "lat": "%s",\n    "lng": "%s",\n    "timestamp": "%s",\n' % (speed,lat,lng,timestamp)
 
 def decode(coord):
     #Converts DDDMM.MMMMM -> DD.DDDDD
