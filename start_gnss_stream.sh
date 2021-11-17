@@ -7,9 +7,9 @@
 	printf '\r%s\r' 'AT$GPSRST' > /dev/ttyUSB2
 	sleep 5 # 25 is the minimum. Safety factor of 2
 
-	printf '%s\n' 'Deleting the GPS information (history buffer) stored in the NVM'
-	printf '\r%s\r' 'AT$GPSNVRAM=15,0' > /dev/ttyUSB2
-	sleep 5 # 25 is the minimum. Safety factor of 2
+	#printf '%s\n' 'Deleting the GPS information (history buffer) stored in the NVM'
+	#printf '\r%s\r' 'AT$GPSNVRAM=15,0' > /dev/ttyUSB2
+	#sleep 5 # 25 is the minimum. Safety factor of 2
 
 	printf '%s\n' 'Activating the unsolicited streaming of the GPS NMEA data (RMC sentence only)'
 	printf '\r%s\r' 'AT$GPSNMUN=2,0,0,0,0,1,0' > /dev/ttyUSB2
