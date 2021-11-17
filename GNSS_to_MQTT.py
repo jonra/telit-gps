@@ -89,17 +89,19 @@ while True:
         data = ser.readline().decode('utf-8')
         if data is None:
             print('No data available on the serial port')
+        else:
+            decoded = parse_GNSS_data(data)
+            if decoded is not None:
+                msg = create_message(assetId, name, description, decoded, assistLevel, assetType, isRestricted)
+                rc = publish_MQTT(cli, topic, msg)
+                if rc == 0:
+                    print('\nSuccessfully published the message to the MQTT broker\n'+msg)
+                else:
+                    print('\nCould not publish the message to the MQTT broker')
+            else:
+                print('No satellite data available')
     except:
         print('Failed to acquire data from the serial port')
-    
-    if data is not None:
-        decoded = parse_GNSS_data(data)
-        if decoded is not None:
-            msg = create_message(assetId, name, description, decoded, assistLevel, assetType, isRestricted)
-            print(msg)
-            publish_MQTT(cli, topic, msg)
-        else:
-            print('No satellite data available')
     
     # Frequency of reading
     sleep(5)

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-	printf '%s\n' 'Starting the start_gnss_stream.sh script'
+	printf '%s\n' 'Initiating the script that starts the GNSS stream'
 	sleep 5 # 25 is the minimum. Safety factor of 2
 
 	printf '%s\n' 'Switching off/on the module and restoring the default GNSS parameters in order to start from known GNSS settings'
@@ -19,6 +19,6 @@
 	printf '\r%s\r' 'AT$GPSP=1' > /dev/ttyUSB2
 	sleep 5 # 25 is the minimum. Safety factor of 2
 
-	printf '%s\n' 'Saving the current GNSS parameters to the NVM'
+	printf '%s\n\n' 'Saving the current GNSS parameters to the NVM'
 	printf '\r%s\r' 'AT$GPSSAV' > /dev/ttyUSB2
 	sleep 5 # 25 is the minimum. Safety factor of 2
