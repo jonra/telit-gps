@@ -1,3 +1,3 @@
 #!/bin/sh
 
-	> ../telit.log
+	> ~/telit.log
