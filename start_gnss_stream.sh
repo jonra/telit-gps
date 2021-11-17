@@ -21,3 +21,4 @@
 
 	printf '%s\n' 'Saving the current GNSS parameters to the NVM'
 	printf '\r%s\r' 'AT$GPSSAV' > /dev/ttyUSB2
+	sleep 5 # 25 is the minimum. Safety factor of 2
