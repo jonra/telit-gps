@@ -90,6 +90,7 @@ while True:
         if data is None:
             print('No data available on the serial port', flush = True)
         else:
+            print('data = ' + data)
             decoded = parse_GNSS_data(data)
             if decoded is not None:
                 msg = create_message(assetId, name, description, decoded, assistLevel, assetType, isRestricted)
