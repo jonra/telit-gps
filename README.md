@@ -44,7 +44,7 @@ To stop the GNSS data streaming:
 To set up the cron job which starts the GNSS data streaming when the RPi is powered up:
 
 1. Run the `set_up_startup_job.sh` script.
-1. Restart the RPi for the scripts to start.
+1. Restart the RPi for the scripts to start executing.
 
 To cancel the cron job and stop the automatic execution of the scripts on startup:
 
