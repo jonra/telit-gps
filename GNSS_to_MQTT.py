@@ -3,25 +3,34 @@
 import serial
 from time import time, sleep
 from paho.mqtt import client as mqtt_client
+from json import load
 
 # Serial params
 portread = '/dev/ttyUSB1'
 portwrite = '/dev/ttyUSB2'
 
 # MQTT params
-broker = 'hairdresser.cloudmqtt.com'
-port = 16350
-topic = 'bikemovedevent-topic'
-username = 'iaajmmzt'
-password = 'JFJyEDIadkIO'
+with open('mqtt_params.json') as mqtt_json:
+    mqtt_params = json.load(mqtt_json)
+# {
+	# "broker": "hairdresser.cloudmqtt.com",
+	# "port": 16350,
+	# "topic": "bikemovedevent-topic",
+	# "username": "iaajmmzt",
+	# "password": "JFJyEDIadkIO"
+# }
 
-# Fixed data
-assetId = 'telit-1'
-name = 'Telit1'
-description = 'RPI device'
-assistLevel = 99
-assetType = 'CAR'
-isRestricted = False
+# Device params
+with open('device_params.json') as device_json:
+    device_params = json.load(device_json)
+# {
+	# "assetId": "telit-1"
+	# "name": "Telit1"
+	# "description": "RPI device"
+	# "assistLevel": 99
+	# "assetType": "CAR"
+	# "isRestricted": false
+# }
 
 def parse_GNSS_data(data):
     # print(data, end='') #prints raw data
@@ -30,7 +39,7 @@ def parse_GNSS_data(data):
         if sdata[2] == 'V':
             return
         
-        timestamp = str(int(time()*1000))
+        timestamp = str(int(time()*1000)) # epoch time in milliseconds
         lat = decode(sdata[3]) #latitude
         lng = decode(sdata[5]) #longitute
         speed = sdata[7]       #Speed in knots
@@ -64,7 +73,7 @@ def publish_MQTT(client, topic, message):
     ret = client.publish(topic, message)
     return ret[0]
 
-
+print('Initializing the serial port ' + portread)
 while True:
     try:
         ser = serial.Serial(portread, baudrate = 115200, timeout = 2, rtscts=True, dsrdtr=True)
@@ -73,9 +82,10 @@ while True:
         print('Failed to initialize the serial port, retrying..', flush = True)
     sleep(5)
 
+print('Connecting to the MQTT broker' + portread)
 while True:
     try:
-        cli = connect_MQTT(broker, port, assetId, username, password)
+        cli = connect_MQTT(mqtt_params['broker'], mqtt_params['port'], mqtt_params['assetId'], mqtt_params['username'], mqtt_params['password'])
         break
     except:
         print('Failed to connect to the MQTT broker, retrying..', flush = True)
@@ -93,7 +103,7 @@ while True:
             print('\ndata = ' + data, end='', flush = True)
             decoded = parse_GNSS_data(data)
             if decoded is not None:
-                msg = create_message(assetId, name, description, decoded, assistLevel, assetType, isRestricted)
+                msg = create_message(device_params['assetId'], device_params['name'], device_params['description'], decoded, device_params['assistLevel'], device_params['assetType'], device_params['isRestricted'])
                 rc = publish_MQTT(cli, topic, msg)
                 if rc == 0:
                     print('Successfully published the message to the MQTT broker\n' + msg, flush = True)
