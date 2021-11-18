@@ -3,7 +3,7 @@
 import serial
 from time import time, sleep
 from paho.mqtt import client as mqtt_client
-from json import load
+from json import load as json_load
 import os
 
 # Directory of the script
@@ -15,7 +15,7 @@ portwrite = '/dev/ttyUSB2'
 
 # MQTT params
 with open(os.path.join(file_dir, 'mqtt_params.json')) as mqtt_json:
-    mqtt_params = json.load(mqtt_json)
+    mqtt_params = json_load(mqtt_json)
 # {
 	# "broker": "hairdresser.cloudmqtt.com",
 	# "port": 16350,
@@ -26,7 +26,7 @@ with open(os.path.join(file_dir, 'mqtt_params.json')) as mqtt_json:
 
 # Device params
 with open(os.path.join(file_dir, 'device_params.json')) as device_json:
-    device_params = json.load(device_json)
+    device_params = json_load(device_json)
 # {
 	# "assetId": "telit-1"
 	# "name": "Telit1"
