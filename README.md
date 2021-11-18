@@ -5,18 +5,48 @@ https://docs.sixfab.com/docs/raspberry-pi-4g-lte-cellular-modem-kit-intoduction
 
 The program consists of several scripts:
 
-`setup_environment.sh`
-Script that sets up the environment and dependencies required for other scripts to function properly. It also sets up the systemd service which executes `clear_log.sh`, `start_gnss_stream.sh` and `GNSS_to_MQTT.py` on each RPi boot in order to start the GNSS stream automatically.
-When setting up the RPi for automatic GNSS streaming, this script should be run once by invoking `./setup_environment.sh` without `sudo` and then entering the password for the current user.
-
-`clear_log.sh`
-Script that clears the `telit.log` file located in the home directory (will be created automatically if not there).
+`init_environment.sh`
+Script that sets up the environment and dependencies required for the other scripts to function properly.
 
 `start_gnss_stream.sh`
 Script that sends the required AT commands to the Telit module in order to configure and start the GNSS stream.
 
 `stop_gnss_stream.sh`
-Script that sends the required AT commands to the module in order to stop the GNSS stream and reset GNSS parameters and data stored in the module's NVM.
+Script that sends the required AT commands to the module in order to stop the GNSS stream and reset GNSS parameters.
 
 `GNSS_to_MQTT.py`
 Python3 script that reads GNSS data from the ttyUSB1 serial port, parses the raw values and publishes the extracted information to the MQTT broker.
+
+`set_up_startup_job.sh`
+Script that sets up the cron job which automates script execution on RPi startup for headless GNSS data streaming to the MQTT broker.
+
+`cancel_startup_job.sh`
+Script that cancels the cron job so that the scripts are not run on RPi startup.
+
+# How to use
+
+All scripts should be run as current user (without `sudo`). Run the `init_environment.sh` script once when setting up a new Raspberry Pi. Check the MQTT parameters in the `mqtt_params.json` file before proceeding.
+
+### Manual execution:
+
+To start the GNSS data streaming:
+
+1. Run the `start_gnss_stream.sh` script.
+2. Run the `GNSS_to_MQTT.py` program with `python3`.
+
+To stop the GNSS data streaming:
+
+1. Stop the execution of `GNSS_to_MQTT.py` with `Ctrl+C`.
+2. Run the `stop_gnss_stream.sh` script.
+
+### Automated execution on the Raspberry Pi startup:
+
+To set up the cron job which starts the GNSS data streaming when the RPi is powered up:
+
+1. Run the `set_up_startup_job.sh` script.
+
+To cancel the cron job and stop the automatic execution of the scripts on startup:
+
+1. Run the `cancel_startup_job.sh` script.
+
+All the script outputs (stdout and stderr) are logged to `telit.log` file which is located in the RPi user home directory. The log is cleared on restart.
