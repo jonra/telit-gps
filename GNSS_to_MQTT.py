@@ -86,10 +86,10 @@ while True:
         print('Failed to initialize the serial port, retrying..', flush = True)
     sleep(5)
 
-print('Connecting to the MQTT broker' + portread)
+print('Connecting to the MQTT broker')
 while True:
     try:
-        cli = connect_MQTT(mqtt_params['broker'], mqtt_params['port'], mqtt_params['assetId'], mqtt_params['username'], mqtt_params['password'])
+        cli = connect_MQTT(mqtt_params['broker'], mqtt_params['port'], device_params['assetId'], mqtt_params['username'], mqtt_params['password'])
         break
     except:
         print('Failed to connect to the MQTT broker, retrying..', flush = True)
