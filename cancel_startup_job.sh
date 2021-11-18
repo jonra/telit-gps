@@ -1,5 +1,8 @@
 #!/bin/sh
-
+	
+	printf '%s\n' 'Initiating the script that stops the GNSS stream'
+	. ./stop_gnss_stream.sh
+	
 	printf '%s\n\n' 'Cancelling the cron job for script automation'
 	crontab -l > crontab_current
 	grep -v 'start_gnss_stream.sh' crontab_current > tmpfile
