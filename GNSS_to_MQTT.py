@@ -10,7 +10,7 @@ portread = '/dev/ttyUSB1'
 portwrite = '/dev/ttyUSB2'
 
 # MQTT params
-with open('mqtt_params.json') as mqtt_json:
+with open('./mqtt_params.json') as mqtt_json:
     mqtt_params = json.load(mqtt_json)
 # {
 	# "broker": "hairdresser.cloudmqtt.com",
@@ -21,7 +21,7 @@ with open('mqtt_params.json') as mqtt_json:
 # }
 
 # Device params
-with open('device_params.json') as device_json:
+with open('./device_params.json') as device_json:
     device_params = json.load(device_json)
 # {
 	# "assetId": "telit-1"
