@@ -25,7 +25,7 @@ Script that cancels the cron job so that the scripts are not run on RPi startup.
 
 # How to use
 
-All scripts should be run as current user (without `sudo`). Run the `init_environment.sh` script once when setting up a new Raspberry Pi. Check the MQTT parameters in the `mqtt_params.json` file before proceeding.
+All scripts should be run as current user (without `sudo`). First run the `init_environment.sh` script once when setting up a new Raspberry Pi. Check the MQTT parameters in the `mqtt_params.json` file before proceeding.
 
 ### Manual execution:
 
