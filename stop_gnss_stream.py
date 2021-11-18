@@ -8,7 +8,7 @@ port = '/dev/ttyUSB2'
 print('Initiating the script that stops the GNSS stream')
 sleep(1)
 
-print('Initializing the serial port', flush = True)
+print('Initializing the serial port ' + port, flush = True)
 sleep(1)
 while True:
     try:
