@@ -9,7 +9,7 @@
 	cnt=0
 	while read -r line < /dev/ttyUSB2; do
 		hex=$(hexdump -e '"%X"' <<< "${line}")
-		printf '%s\n' "${hex}"
+		printf '%s\n' "${line}" | xxd
 		if [ "${line}" = "OK\r\n" ]; then
 			break
 		elif [ "${line}" = "ERROR\r\n" ]; then
