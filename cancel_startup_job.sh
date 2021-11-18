@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 	printf '%s\n\n' 'Cancelling the cron job for script automation'
 	crontab -l > crontab_current
