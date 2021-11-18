@@ -44,9 +44,11 @@ To stop the GNSS data streaming:
 To set up the cron job which starts the GNSS data streaming when the RPi is powered up:
 
 1. Run the `set_up_startup_job.sh` script.
+1. Restart the RPi for the scripts to start.
 
 To cancel the cron job and stop the automatic execution of the scripts on startup:
 
 1. Run the `cancel_startup_job.sh` script.
+1. Restart the RPi to stop the `GNSS_to_MQTT.py` execution.
 
 All the script outputs (stdout and stderr) are logged to `telit.log` file which is located in the RPi user home directory. The log is cleared on restart.
