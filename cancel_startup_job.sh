@@ -9,4 +9,5 @@
 	rm crontab_current
 	
 	printf 's\n\n' 'Stopping GNSS_to_MQTT.py'
-	ps -ef | grep 'GNSS_to_MQTT.py' | grep -v grep | awk '/[G]NSS_to_MQTT.py/{print $2}' | xargs kill
+	$(ps -ef | grep 'GNSS_to_MQTT.py' | grep -v grep | awk '/[G]NSS_to_MQTT.py/{print $2}' | xargs kill)
+	
