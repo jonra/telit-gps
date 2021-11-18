@@ -3,6 +3,7 @@
 import serial
 from time import time, sleep
 from paho.mqtt import client as mqtt_client
+from subprocess import call
 
 # Serial params
 portread = '/dev/ttyUSB1'
@@ -67,7 +68,7 @@ def publish_MQTT(client, topic, message):
 
 while True:
     try:
-        ser = serial.Serial(portread, baudrate = 115200, timeout = 3, rtscts=True, dsrdtr=True)
+        ser = serial.Serial(portread, baudrate = 115200, timeout = 2, rtscts=True, dsrdtr=True)
         break
     except:
         print('Failed to initialize the serial port, retrying..', flush = True)
@@ -81,6 +82,7 @@ while True:
         print('Failed to connect to the MQTT broker, retrying..', flush = True)
     sleep(5)
 
+nd_count = 0
 while True:
     #data = '$GPRMC,182144.00,A,3757.595246,N,01115.606721,E,0.0,0.0,240321,4.0,E,A,V*49'
     data = None
@@ -89,7 +91,12 @@ while True:
         data = ser.readline().decode('utf-8')
         if data is None:
             print('No data available on the serial port', flush = True)
+            nd_count += 1
+            if nd_count == 10:
+                call("./start_gnss_stream.sh")
+                nd_count = 0
         else:
+            nd_count = 0
             decoded = parse_GNSS_data(data)
             if decoded is not None:
                 msg = create_message(assetId, name, description, decoded, assistLevel, assetType, isRestricted)
