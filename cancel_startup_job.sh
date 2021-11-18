@@ -1,7 +1,7 @@
 #!/bin/sh
 
 	printf '%s\n' 'Initiating the script that stops the GNSS stream'
-	. ./stop_gnss_stream.sh >> ${HOME}/telit.log 2>&1
+	/usr/bin/python3 ./stop_gnss_stream.py >> ${HOME}/telit.log 2>&1
 	
 	printf '%s\n' 'Cancelling the cron job for script automation'
 	crontab -l > crontab_current
