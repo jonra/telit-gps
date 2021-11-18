@@ -90,15 +90,15 @@ while True:
         if data is None:
             print('No data available on the serial port', flush = True)
         else:
-            print('data = ' + data)
+            print('\ndata = ' + data, end='', flush = True)
             decoded = parse_GNSS_data(data)
             if decoded is not None:
                 msg = create_message(assetId, name, description, decoded, assistLevel, assetType, isRestricted)
                 rc = publish_MQTT(cli, topic, msg)
                 if rc == 0:
-                    print('\nSuccessfully published the message to the MQTT broker\n' + msg, flush = True)
+                    print('Successfully published the message to the MQTT broker\n' + msg, flush = True)
                 else:
-                    print('\nCould not publish the message to the MQTT broker', flush = True)
+                    print('Could not publish the message to the MQTT broker', flush = True)
             else:
                 print('No satellite data available', flush = True)
     except:
