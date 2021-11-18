@@ -1,0 +1,8 @@
+{
+	"assetId": "telit-1"
+	"name": "Telit1"
+	"description": "RPI device"
+	"assistLevel": 99
+	"assetType": "CAR"
+	"isRestricted": false
+}

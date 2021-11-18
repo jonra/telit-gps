@@ -1,0 +1,7 @@
+{
+	"broker": "hairdresser.cloudmqtt.com",
+	"port": 16350,
+	"topic": "bikemovedevent-topic",
+	"username": "iaajmmzt",
+	"password": "JFJyEDIadkIO"
+}
