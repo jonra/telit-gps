@@ -108,7 +108,7 @@ while True:
             decoded = parse_GNSS_data(data)
             if decoded is not None:
                 msg = create_message(device_params['assetId'], device_params['name'], device_params['description'], decoded, device_params['assistLevel'], device_params['assetType'], device_params['isRestricted'])
-                rc = publish_MQTT(cli, topic, msg)
+                rc = publish_MQTT(cli, mqtt_params['topic'], msg)
                 if rc == 0:
                     print('Successfully published the message to the MQTT broker\n' + msg, flush = True)
                 else:
