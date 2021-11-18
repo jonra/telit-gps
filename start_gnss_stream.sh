@@ -10,7 +10,7 @@
 	while read -r line < /dev/ttyUSB2; do
 		if [ "${line}" = "OK\r\n" ]; then
 			break
-		elif  ["${line}" = "ERROR\r\n" ]; then
+		elif [ "${line}" = "ERROR\r\n" ]; then
 			printf '\r%s\r' 'AT$GPSRST' > /dev/ttyUSB2
 			sleep 5 # 2.5 is the minimum. Safety factor of 2
 		else
@@ -34,7 +34,7 @@
 	while read -r line < /dev/ttyUSB2; do
 		if [ "${line}" = "OK\r\n" ]; then
 			break
-		elif  ["${line}" = "ERROR\r\n" ]; then
+		elif [ "${line}" = "ERROR\r\n" ]; then
 			printf '\r%s\r' 'AT$GPSNMUN=2,0,0,0,0,1,0' > /dev/ttyUSB2
 			sleep 5 # 2.5 is the minimum. Safety factor of 2
 		else
@@ -54,7 +54,7 @@
 	while read -r line < /dev/ttyUSB2; do
 		if [ "${line}" = "OK\r\n" ]; then
 			break
-		elif  ["${line}" = "ERROR\r\n" ]; then
+		elif [ "${line}" = "ERROR\r\n" ]; then
 			printf '\r%s\r' 'AT$GPSP=1' > /dev/ttyUSB2
 			sleep 5 # 2.5 is the minimum. Safety factor of 2
 		else
@@ -74,7 +74,7 @@
 	while read -r line < /dev/ttyUSB2; do
 		if [ "${line}" = "OK\r\n" ]; then
 			break
-		elif  ["${line}" = "ERROR\r\n" ]; then
+		elif [ "${line}" = "ERROR\r\n" ]; then
 			printf '\r%s\r' 'AT$GPSSAV' > /dev/ttyUSB2
 			sleep 5 # 2.5 is the minimum. Safety factor of 2
 		else
