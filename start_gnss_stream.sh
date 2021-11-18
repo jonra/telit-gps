@@ -8,7 +8,6 @@
 	sleep 5 # 2.5 is the minimum. Safety factor of 2
 	cnt=0
 	while read -r line < /dev/ttyUSB2; do
-		hex=$(hexdump -e '"%X"' <<< "${line}")
 		printf '%s\n' "${line}" | xxd
 		if [ "${line}" = "OK\r\n" ]; then
 			break
