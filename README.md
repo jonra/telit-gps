@@ -25,19 +25,19 @@ Shell script that cancels the cron job so that the scripts are not run on RPi st
 
 # How to use
 
-All scripts should be run as current user (without `sudo`). First run the `init_environment.sh` script once when setting up a new Raspberry Pi. Check the MQTT parameters in the `mqtt_params.json` file and device parameters in the `device_params.json` file before proceeding.
+All scripts should be run as current user (without `sudo`). First run the `init_environment.sh` script once when setting up a new Raspberry Pi. Check the MQTT parameters in the `mqtt_params.json` file and device parameters in the `device_params.json` file before proceeding. All of the scripts contain the appropriate shebang (`#!/bin/sh` for shell scripts and `#!/usr/bin/env python3` for Python3 scripts), so they can be run without invoking `sh` or `python3`.
 
 ### Manual execution:
 
 To start the GNSS data streaming:
 
-1. Run the `start_gnss_stream.py` script with `python3`.
-2. Run the `GNSS_to_MQTT.py` script with `python3`.
+1. Run the `start_gnss_stream.py` script.
+2. Run the `GNSS_to_MQTT.py` script.
 
 To stop the GNSS data streaming:
 
 1. Stop the execution of `GNSS_to_MQTT.py` with `Ctrl+C`.
-2. Run the `stop_gnss_stream.py` script with `python3`.
+2. Run the `stop_gnss_stream.py` script.
 
 ### Automated execution on the Raspberry Pi startup:
 
