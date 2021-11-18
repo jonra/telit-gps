@@ -53,7 +53,7 @@ def create_message(assetId, name, description, gnss_data_decoded, assistLevel, a
 
 def connect_MQTT(broker, port, client_id, username = None, password = None):
     def on_connect(client, userdata, flags, rc):
-        print(f'CONNACK received with code {rc}')
+        print(f'CONNACK received with code {rc}', flush=True)
     client = mqtt_client.Client(client_id)
     client.on_connect = on_connect
     client.username_pw_set(username, password)
@@ -70,7 +70,7 @@ while True:
         ser = serial.Serial(portread, baudrate = 115200, timeout = 3, rtscts=True, dsrdtr=True)
         break
     except:
-        print('Failed to initialize the serial port, retrying..')
+        print('Failed to initialize the serial port, retrying..', flush=True)
     sleep(5)
 
 while True:
@@ -78,7 +78,7 @@ while True:
         cli = connect_MQTT(broker, port, assetId, username, password)
         break
     except:
-        print('Failed to connect to the MQTT broker, retrying..')
+        print('Failed to connect to the MQTT broker, retrying..', flush=True)
     sleep(5)
 
 while True:
@@ -88,20 +88,20 @@ while True:
         ser.reset_input_buffer()
         data = ser.readline().decode('utf-8')
         if data is None:
-            print('No data available on the serial port')
+            print('No data available on the serial port', flush=True)
         else:
             decoded = parse_GNSS_data(data)
             if decoded is not None:
                 msg = create_message(assetId, name, description, decoded, assistLevel, assetType, isRestricted)
                 rc = publish_MQTT(cli, topic, msg)
                 if rc == 0:
-                    print('\nSuccessfully published the message to the MQTT broker\n'+msg)
+                    print('\nSuccessfully published the message to the MQTT broker\n' + msg, flush=True)
                 else:
-                    print('\nCould not publish the message to the MQTT broker')
+                    print('\nCould not publish the message to the MQTT broker', flush=True)
             else:
-                print('No satellite data available')
+                print('No satellite data available', flush=True)
     except:
-        print('Failed to acquire data from the serial port')
+        print('Failed to acquire data from the serial port', flush=True)
     
     # Frequency of reading
     sleep(5)
