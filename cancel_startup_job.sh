@@ -4,7 +4,7 @@
 	kill $(ps -ef | grep '[G]NSS_to_MQTT.py' | awk '{print $2}') 2> /dev/null
 
 	printf '%s\n' 'Initiating the script that stops the GNSS stream'
-	/usr/bin/python3 ./stop_gnss_stream.py >> ${HOME}/telit.log 2>&1
+	./stop_gnss_stream.py >> ${HOME}/telit.log 2>&1
 
 	printf '%s\n\n' 'Cancelling the cron job for script automation'
 	crontab -l > crontab_current
