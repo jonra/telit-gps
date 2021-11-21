@@ -5,7 +5,7 @@
 	
 	printf '%s\n' 'Checking the compatibility of the module'
 	i=0
-	while [ \( ! lsusb -t | grep -q 'qmi-wwan' \) -a \( ! lsusb -t | grep -q 'GobiNet' \) -a \( $i -lt 5 \)]
+	while [ \( ! lsusb -t | grep -q 'qmi_wwan' \) -a \( $i -lt 5 \)]
 	do
 		i=$(expr $i+1)
 		printf '\r%s\r' 'AT#USBCFG=0' > /dev/ttyUSB3
