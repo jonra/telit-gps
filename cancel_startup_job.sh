@@ -10,7 +10,6 @@
 	DIR="$(dirname "$(realpath "$0")")"
 	cronjob="@reboot sleep 10 && ${DIR}/clear_log.sh && ${DIR}/start_gnss_stream.py >> ${HOME}/telit.log 2>&1 && ${DIR}/GNSS_to_MQTT.py >> ${HOME}/telit.log 2>&1"
 	crontab -l > crontab_current
-	printf '%s\n' "$cronjob"
 	if grep -q "$cronjob" crontab_current; then
 		grep -v "$cronjob" crontab_current > tmpfile
 		mv tmpfile crontab_current
