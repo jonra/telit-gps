@@ -9,12 +9,13 @@
 	printf '%s\n' 'Cancelling the cron job for script automation'
 	crontab -l > crontab_current
 	cronjob="@reboot sleep 10 && ${DIR}/clear_log.sh && ${DIR}/start_gnss_stream.py >> ${HOME}/telit.log 2>&1 && ${DIR}/GNSS_to_MQTT.py >> ${HOME}/telit.log 2>&1"
+	printf '%s\n' "$cronjob"
 	if grep -q "$cronjob" crontab_current; then
 		grep -v "$cronjob" crontab_current > tmpfile
 		mv tmpfile crontab_current
 		crontab crontab_current
 		printf '\n'
 	else
-		printf '%s\n\n' 'Cron job was not found'
+		printf '%s\n\n' 'Cron job not found'
 	fi
 	rm crontab_current
