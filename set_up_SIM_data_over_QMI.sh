@@ -5,7 +5,7 @@
 	
 	printf '%s\n' 'Checking the compatibility of the module'
 	i=0
-	while [ \( ! "$(lsusb -t)" | "$(grep -q 'qmi_wwan')" \) -a \( $i -lt 5 \) ]; do
+	while [ \( ! lsusb -t | grep -q 'qmi_wwan' \) -a \( $i -lt 5 \) ]; do
 		i=$(expr $i+1)
 		printf '\r%s\r' 'AT#USBCFG=0' > /dev/ttyUSB3
 		sleep 10
