@@ -5,8 +5,7 @@
 	
 	printf '%s\n' 'Checking the compatibility of the module'
 	i=0
-	while [ \( ! lsusb -t | grep -q 'qmi_wwan' \) -a \( $i -lt 5 \)]
-	do
+	while [ \( ! lsusb -t | grep -q 'qmi_wwan' \) -a \( $i -lt 5 \) ]; do
 		i=$(expr $i+1)
 		printf '\r%s\r' 'AT#USBCFG=0' > /dev/ttyUSB3
 		sleep 10
@@ -20,7 +19,7 @@
 	sleep 1
 	
 	printf '%s\n' 'Making sure the module is ready'
-	if ! sudo qmicli -d /dev/cdc-wdm0 --dms-get-operating-mode | grep -q 'online'; do
+	if [ ! sudo qmicli -d /dev/cdc-wdm0 --dms-get-operating-mode | grep -q 'online' ]; do
 		sudo qmicli -d /dev/cdc-wdm0 --dms-set-operating-mode='online'
 	fi
 	sleep 1
