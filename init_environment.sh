@@ -1,7 +1,8 @@
 #!/bin/sh
 
-	printf '%s\n' 'Installing required packages'
-	sudo apt -y install minicom python3-pip
-
-	printf '%s\n\n' 'Installing required Python3 libraries'
+	printf '%s\n' 'Installing the required packages'
+	sudo apt update
+	sudo apt -y install minicom python3-pip libqmi-utils udhcpc
+	
+	printf '%s\n' 'Installing the required Python3 libraries'
 	pip3 install pyserial paho-mqtt
