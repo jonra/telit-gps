@@ -37,7 +37,6 @@ with open(os.path.join(file_dir, 'device_params.json')) as device_json:
 # }
 
 def parse_GNSS_data(data):
-    # print(data, end='') #prints raw data
     if data[0:6] == '$GPRMC':
         sdata = data.split(',')
         if sdata[2] == 'V':
@@ -77,7 +76,7 @@ def publish_MQTT(client, topic, message):
     ret = client.publish(topic, message)
     return ret[0]
 
-print('Initializing the serial port ' + portread)
+print('Initializing the serial port ' + portread, flush = True)
 while True:
     try:
         ser = serial.Serial(portread, baudrate = 115200, timeout = 2, rtscts=True, dsrdtr=True)
@@ -86,7 +85,7 @@ while True:
         print('Failed to initialize the serial port, retrying', flush = True)
     sleep(5)
 
-print('Connecting to the MQTT broker')
+print('Connecting to the MQTT broker', flush = True)
 while True:
     try:
         cli = connect_MQTT(mqtt_params['broker'], mqtt_params['port'], device_params['assetId'], mqtt_params['username'], mqtt_params['password'])
@@ -112,8 +111,15 @@ while True:
                 if rc == 0:
                     print('Successfully published the message to the MQTT broker\n' + msg, flush = True)
                 else:
-                    print('Could not publish the message to the MQTT broker', flush = True)
-                    cli.reconnect()
+                    print('Could not publish the message to the MQTT broker, connection lost', flush = True)
+                    print('Trying to reconnect', flush = True)
+                    while rc != 0:
+                        rc = cli.reconnect()
+                        if rc == 0:
+                            print('Successfully reconnected to the MQTT broker', flush = True)
+                        else:
+                            print('Failed to reconnect to the MQTT broker, retrying', flush = True)
+                            sleep(5)
             else:
                 print('No satellite data available', flush = True)
     except:
