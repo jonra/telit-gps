@@ -103,7 +103,7 @@ while True:
         if data is None:
             print('No data available on the serial port', flush = True)
         else:
-            print('\ndata = ' + data, end='', flush = True)
+            print(time.strftime("%H:%M:%S", time.localtime()) + ' - ' +'\ndata = ' + data, end='', flush = True)
             decoded = parse_GNSS_data(data)
             if decoded is not None:
                 msg = create_message(device_params['assetId'], device_params['name'], device_params['description'], decoded, device_params['assistLevel'], device_params['assetType'], device_params['isRestricted'])
