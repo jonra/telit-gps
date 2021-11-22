@@ -5,14 +5,14 @@
 	
 	printf '%s\n' 'Checking the compatibility of the module'
 	i=0
-	while [ \( ! lsusb -t | grep -q 'qmi_wwan' \) -a \( $i -lt 5 \) ]; do
+	while ( ! lsusb -t | grep -q 'qmi_wwan' ) && ( $i -lt 5 ); do
 		i=$(expr $i+1)
 		printf '\r%s\r' 'AT#USBCFG=0' > /dev/ttyUSB3
 		sleep 10
 		printf '\r%s\r' 'AT#REBOOT' > /dev/ttyUSB3
 		sleep 5
 	done
-	if [ $i -ge 5 ]; then
+	if ( $i -ge 5 ); then
 		printf '%s\n\n' "Module doesn't support QMI interface, terminating"
 		exit 1
 	fi
@@ -31,8 +31,10 @@
 	sleep 1
 	
 	printf '%s\n' 'Connecting to the mobile network'
-	# Change the apn, username and password according to the information provided by your SIM operator
-	sudo qmicli -p -d /dev/cdc-wdm0 --device-open-net='net-raw-ip|net-no-qos-header' --wds-start-network="apn='internet',username='',password='',ip-type=4" --client-no-release-cid
+	un=
+	pw=
+	# Change the apn='...', or add username='...' and password='...' to the bellow command after apn='...' according to the information provided by your SIM operator
+	sudo qmicli -p -d /dev/cdc-wdm0 --device-open-net='net-raw-ip|net-no-qos-header' --wds-start-network="apn='internet',ip-type=4" --client-no-release-cid
 	sleep 1
 	
 	printf '%s\n' 'Configuring the IP address and the default route'
