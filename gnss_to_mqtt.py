@@ -101,30 +101,30 @@ while True:
         if ser.in_waiting > 0:
             ser.reset_input_buffer()
         data = ser.readline().decode('utf-8')
-        if data is None:
-            print('No data available on the serial port', flush = True)
-        else:
-            print(time.strftime("%H:%M:%S", time.localtime()) + ' - ' +'\ndata = ' + data, end='', flush = True)
-            decoded = parse_GNSS_data(data)
-            if decoded is not None:
-                msg = create_message(device_params['assetId'], device_params['name'], device_params['description'], decoded, device_params['assistLevel'], device_params['assetType'], device_params['isRestricted'])
-                rc = publish_MQTT(cli, mqtt_params['topic'], msg)
-                if rc == 0:
-                    print('Successfully published the message to the MQTT broker\n' + msg, flush = True)
-                else:
-                    print('Could not publish the message to the MQTT broker, connection lost', flush = True)
-                    print('Trying to reconnect', flush = True)
-                    while rc != 0:
-                        rc = cli.reconnect()
-                        if rc == 0:
-                            print('Successfully reconnected to the MQTT broker', flush = True)
-                        else:
-                            print('Failed to reconnect to the MQTT broker, retrying', flush = True)
-                            sleep(5)
-            else:
-                print('No satellite data available', flush = True)
     except:
         print('Failed to acquire data from the serial port', flush = True)
+    if data is None:
+        print('No data available on the serial port', flush = True)
+    else:
+        print('\n' + time.strftime("%H:%M:%S", time.localtime()) + ' - ' + 'data = ' + data, end='', flush = True)
+        decoded = parse_GNSS_data(data)
+        if decoded is not None:
+            msg = create_message(device_params['assetId'], device_params['name'], device_params['description'], decoded, device_params['assistLevel'], device_params['assetType'], device_params['isRestricted'])
+            rc = publish_MQTT(cli, mqtt_params['topic'], msg)
+            if rc == 0:
+                print('Successfully published the message to the MQTT broker\n' + msg, flush = True)
+            else:
+                print('Could not publish the message to the MQTT broker, connection lost', flush = True)
+                print('Trying to reconnect', flush = True)
+                while rc != 0:
+                    rc = cli.reconnect()
+                    if rc == 0:
+                        print('Successfully reconnected to the MQTT broker', flush = True)
+                    else:
+                        print('Failed to reconnect to the MQTT broker, retrying', flush = True)
+                        sleep(5)
+        else:
+            print('No satellite data available', flush = True)
     
     # Frequency of reading
     sleep(5)
