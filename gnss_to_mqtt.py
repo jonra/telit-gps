@@ -98,7 +98,8 @@ while True:
     #data = '$GPRMC,182144.00,A,3757.595246,N,01115.606721,E,0.0,0.0,240321,4.0,E,A,V*49'
     data = None
     try:
-        ser.reset_input_buffer()
+        if ser.in_waiting > 0:
+            ser.reset_input_buffer()
         data = ser.readline().decode('utf-8')
         if data is None:
             print('No data available on the serial port', flush = True)
