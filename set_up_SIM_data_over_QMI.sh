@@ -27,7 +27,6 @@
 	sudo ip link set wwan0 up
 	
 	printf '%s\n' 'Connecting to the mobile network'
-	# Change the apn='...', or add username='...' and password='...' after apn='...' according to the information provided by your SIM operator
 	DIR="$(dirname "$(realpath "$0")")"
 	apn=$(cat "${DIR}/apn_params.json" | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["apn"])')
 	un=$(cat "${DIR}/apn_params.json" | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["username"])')
