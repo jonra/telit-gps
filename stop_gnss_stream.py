@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import serial
+from serial import Serial
 from time import sleep
 
 port = '/dev/ttyUSB2'
@@ -8,7 +8,7 @@ port = '/dev/ttyUSB2'
 print('Initializing the serial port ' + port, flush = True)
 while True:
     try:
-        ser = serial.Serial(port, baudrate = 115200, timeout = 2, rtscts=True, dsrdtr=True)
+        ser = Serial(port, baudrate = 115200, timeout = 2, rtscts=True, dsrdtr=True)
         break
     except:
         print('Failed to initialize the serial port, retrying', flush = True)
