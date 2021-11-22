@@ -32,9 +32,7 @@
 	sleep 1
 	
 	printf '%s\n' 'Connecting to the mobile network'
-	un=
-	pw=
-	# Change the apn='...', or add username='...' and password='...' to the bellow command after apn='...' according to the information provided by your SIM operator
+	# Change the apn='...', or add username='...' and password='...' after apn='...' according to the information provided by your SIM operator
 	sudo qmicli -p -d /dev/cdc-wdm0 --device-open-net='net-raw-ip|net-no-qos-header' --wds-start-network="apn='internet',ip-type=4" --client-no-release-cid
 	sleep 1
 	
