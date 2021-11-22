@@ -21,11 +21,11 @@ at_commands = {'AT$GPSRST': 'Switching off/on the module and restoring the defau
                'AT$GPSSAV': 'Saving the current GNSS parameters to the NVM'}
 
 for cmd in at_commands:
-    if ser.in_waiting > 0:
-        ser.reset_input_buffer()
     print(at_commands[cmd], flush = True)
     while True:
         try:
+            if ser.in_waiting > 0:
+                ser.reset_input_buffer()
             ser.write(('\r'+cmd+'\r').encode())
             sleep(5) # 2.5 is the minimum. Safety factor of 2
             response = ser.read(ser.in_waiting).decode('utf-8')
@@ -33,4 +33,5 @@ for cmd in at_commands:
                 break
         except:
             print('Failed to send the AT command ' + cmd + ' to the serial port, retrying', flush = True)
+ser.close()
 print()
