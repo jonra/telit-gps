@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
-import serial
-from time import time, sleep
+from serial import Serial
+from time import sleep, time, strftime, localtime
 from paho.mqtt import client as mqtt_client
 from json import load as json_load
-import os
+from os.path import dirname, realpath, join
 
 # Directory of the script
-file_dir = os.path.dirname(os.path.realpath(__file__))
+file_dir = dirname(realpath(__file__))
 
 # Serial params
 portread = '/dev/ttyUSB1'
 portwrite = '/dev/ttyUSB2'
 
 # MQTT params
-with open(os.path.join(file_dir, 'mqtt_params.json')) as mqtt_json:
+with open(join(file_dir, 'mqtt_params.json')) as mqtt_json:
     mqtt_params = json_load(mqtt_json)
 # {
 	# "broker": "hairdresser.cloudmqtt.com",
@@ -25,7 +25,7 @@ with open(os.path.join(file_dir, 'mqtt_params.json')) as mqtt_json:
 # }
 
 # Device params
-with open(os.path.join(file_dir, 'device_params.json')) as device_json:
+with open(join(file_dir, 'device_params.json')) as device_json:
     device_params = json_load(device_json)
 # {
 	# "assetId": "telit-1"
@@ -79,7 +79,7 @@ def publish_MQTT(client, topic, message):
 print('Initializing the serial port ' + portread, flush = True)
 while True:
     try:
-        ser = serial.Serial(portread, baudrate = 115200, timeout = 2, rtscts=True, dsrdtr=True)
+        ser = Serial(portread, baudrate = 115200, timeout = 2, rtscts=True, dsrdtr=True)
         break
     except:
         print('Failed to initialize the serial port, retrying', flush = True)
@@ -106,7 +106,7 @@ while True:
     if data is None:
         print('No data available on the serial port', flush = True)
     else:
-        print('\n' + time.strftime("%H:%M:%S", time.localtime()) + ' - ' + 'data = ' + data, end='', flush = True)
+        print('\n' + strftime("%H:%M:%S", localtime()) + ' - ' + 'data = ' + data, end='', flush = True)
         decoded = parse_GNSS_data(data)
         if decoded is not None:
             msg = create_message(device_params['assetId'], device_params['name'], device_params['description'], decoded, device_params['assistLevel'], device_params['assetType'], device_params['isRestricted'])
