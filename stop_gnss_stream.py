@@ -30,4 +30,5 @@ for cmd in at_commands:
                 break
         except:
             print('Failed to send the AT command ' + cmd + ' to the serial port, retrying', flush = True)
+ser.close()
 print()
