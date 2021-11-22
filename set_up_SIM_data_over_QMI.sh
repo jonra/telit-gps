@@ -5,21 +5,21 @@
 	
 	printf '%s\n' 'Checking the compatibility of the module'
 	i=0
-	while ( ! lsusb -t | grep -q 'qmi_wwan' ) && ( $i -lt 5 ); do
+	while ! lsusb -t | grep -q 'qmi_wwan' && [ $i -lt 5 ]; do
 		i=$(expr $i+1)
 		printf '\r%s\r' 'AT#USBCFG=0' > /dev/ttyUSB3
 		sleep 10
 		printf '\r%s\r' 'AT#REBOOT' > /dev/ttyUSB3
 		sleep 5
 	done
-	if ( $i -ge 5 ); then
+	if [ $i -ge 5 ] ; then
 		printf '%s\n\n' "Module doesn't support QMI interface, terminating"
 		exit 1
 	fi
 	sleep 1
 	
 	printf '%s\n' 'Making sure the module is ready'
-	if [ ! "$(sudo qmicli -d /dev/cdc-wdm0 --dms-get-operating-mode)" | "$(grep -q 'online')" ]; then
+	if ! sudo qmicli -d /dev/cdc-wdm0 --dms-get-operating-mode | grep -q 'online'; then
 		sudo qmicli -d /dev/cdc-wdm0 --dms-set-operating-mode='online'
 	fi
 	sleep 1
