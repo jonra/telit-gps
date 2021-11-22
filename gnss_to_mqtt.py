@@ -113,6 +113,7 @@ while True:
                     print('Successfully published the message to the MQTT broker\n' + msg, flush = True)
                 else:
                     print('Could not publish the message to the MQTT broker', flush = True)
+                    cli.reconnect()
             else:
                 print('No satellite data available', flush = True)
     except:
