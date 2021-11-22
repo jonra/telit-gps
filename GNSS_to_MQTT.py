@@ -83,7 +83,7 @@ while True:
         ser = serial.Serial(portread, baudrate = 115200, timeout = 2, rtscts=True, dsrdtr=True)
         break
     except:
-        print('Failed to initialize the serial port, retrying..', flush = True)
+        print('Failed to initialize the serial port, retrying', flush = True)
     sleep(5)
 
 print('Connecting to the MQTT broker')
@@ -92,7 +92,7 @@ while True:
         cli = connect_MQTT(mqtt_params['broker'], mqtt_params['port'], device_params['assetId'], mqtt_params['username'], mqtt_params['password'])
         break
     except:
-        print('Failed to connect to the MQTT broker, retrying..', flush = True)
+        print('Failed to connect to the MQTT broker, retrying', flush = True)
     sleep(5)
 
 while True:

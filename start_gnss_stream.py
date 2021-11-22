@@ -5,17 +5,14 @@ from time import sleep
 
 port = '/dev/ttyUSB2'
 
-print('Initiating the script that starts the GNSS stream')
-sleep(1)
-
 print('Initializing the serial port ' + port, flush = True)
-sleep(1)
+
 while True:
     try:
         ser = serial.Serial(port, baudrate = 115200, timeout = 2, rtscts=True, dsrdtr=True)
         break
     except:
-        print('Failed to initialize the serial port, retrying..', flush = True)
+        print('Failed to initialize the serial port, retrying', flush = True)
     sleep(5)
 
 at_commands = {'AT$GPSRST': 'Switching off/on the module and restoring the default GNSS parameters',
@@ -35,5 +32,5 @@ for cmd in at_commands:
             if 'OK' in response and 'ERROR' not in response:
                 break
         except:
-            print('Failed to send the AT command ' + cmd + ' to the serial port, retrying..', flush = True)
+            print('Failed to send the AT command ' + cmd + ' to the serial port, retrying', flush = True)
 print()
