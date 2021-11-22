@@ -33,9 +33,22 @@
 	
 	printf '%s\n' 'Connecting to the mobile network'
 	# Change the apn='...', or add username='...' and password='...' after apn='...' according to the information provided by your SIM operator
-	sudo qmicli -p -d /dev/cdc-wdm0 --device-open-net='net-raw-ip|net-no-qos-header' --wds-start-network="apn='internet',ip-type=4" --client-no-release-cid
+	DIR="$(dirname "$(realpath "$0")")"
+	apn=cat "${DIR}/apn_params.json" | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["apn"])'
+	un=cat "${DIR}/apn_params.json" | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["username"])'
+	pw=cat "${DIR}/apn_params.json" | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["password"])'
+	params="apn='${apn}'"
+	if [ ! -z "$un" ]; then
+		params="${params},username='${un}'"
+	fi
+	if [ ! -z "$pw" ]; then
+		params="${params},password='${pw}'"
+	fi
+	sudo qmicli -p -d /dev/cdc-wdm0 --device-open-net='net-raw-ip|net-no-qos-header' --wds-start-network="${params},ip-type=4" --client-no-release-cid
 	sleep 1
 	
 	printf '%s\n' 'Configuring the IP address and the default route'
 	sudo udhcpc -q -f -i wwan0
 	printf '\n'
+	
+	un=python3 -c "from json import load as json_load;with open('mqtt_params.json') as mqtt_json: print(json_load(mqtt_json)['username']"
