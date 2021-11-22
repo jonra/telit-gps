@@ -26,7 +26,8 @@
 	
 	printf '%s\n' 'Configuring the network interface for the raw-ip protocol'
 	sudo ip link set wwan0 down
-	printf '%c' 'Y' | sudo tee /sys/class/net/wwan0/qmi/raw_ip
+	sleep 1
+	printf '%c\n' 'Y' | sudo tee /sys/class/net/wwan0/qmi/raw_ip > /dev/null
 	sudo ip link set wwan0 up
 	sleep 1
 	
