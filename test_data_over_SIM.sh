@@ -1,11 +1,11 @@
 #!/bin/sh
 
+	screen -d -m
+	
 	sudo ip link set eth0 down
 	sleep 10
 	
-	wget -q --spider https://www.google.com/
-	
-	if [ $? -eq 0 ]; then
+	if ping -q -c 1 -W 1 8.8.8.8 > /dev/null; then
 		printf '%s\n' 'Data over SIM is working'
 	else
 		printf '%s\n' 'Data over SIM is not working'
